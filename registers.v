@@ -1,12 +1,12 @@
-module Register(
+module Register(parameter register_number=6)(parameter ancho_dato=32))(
     input clk,      // Clock input
     input rst,      // Reset input
-    input [4:0] read_reg_1,
-    input [4:0] read_reg_2,
-    input [1:0] write_reg,
-    input [7:0] write_data,
-    output reg [4:0] read_data_1,
-    output reg [4:0] read_data_2
+    input [register_number-1:0] read_reg_1,
+    input [register_number-1:0] read_reg_2,
+    input write_reg,
+    input [ancho_dato-1:0] write_data,
+    output reg [ancho_dato-1:0] read_data_1,
+    output reg [ancho_dato-1:0] read_data_2
 );
 
 // Almacenamiento
@@ -24,7 +24,9 @@ always @(posedge clk or posedge rst) begin
         read_data_2 <= reg_file[read_reg_2];
 
         //Escritura en base a la instrucción write_reg
-        if (write_reg != 2'b00) // Write only when write_reg is not 00
+        if (write_reg != 1'b0) // escribir solo cuando write no sea 00
             reg_file[write_reg] <= write_data;
     end
 end
+
+endmodule
